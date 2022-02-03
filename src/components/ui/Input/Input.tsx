@@ -3,16 +3,15 @@ import {
   Alert,
   StyleSheet,
   TextInput,
+  TextInputProps,
   TouchableHighlight,
   View,
 } from 'react-native';
 import {Plus} from '../../icons/Plus';
 
 type InputProps = {
-  placeholder?: string;
   plus?: boolean;
-  // onSubmit: () => void;
-};
+} & TextInputProps;
 
 const Input: React.FC<InputProps> = props => {
   return (
@@ -37,7 +36,7 @@ const Input: React.FC<InputProps> = props => {
 export default Input;
 
 const styles = StyleSheet.create({
-  input: {fontSize: 17, padding: 15},
+  input: {fontSize: 17, padding: 15, width: '100%'},
   container: {
     flexDirection: 'row',
     width: '90%',
