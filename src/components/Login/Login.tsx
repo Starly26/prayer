@@ -2,9 +2,10 @@ import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {Field, Form, FormProps} from 'react-final-form';
 import {Button, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import AppRoutes from '../../navigation/route';
 import {Input} from '../ui/Input';
 
-const Registration: React.FC = () => {
+const Login: React.FC = () => {
   const onSubmit = (values: FormProps<{name: string}>) => {
     console.log(values.name);
   };
@@ -12,16 +13,6 @@ const Registration: React.FC = () => {
   const navigation = useNavigation();
   return (
     <SafeAreaView>
-      <View>
-        <Text style={styles.text}>Wellcome to Prayer</Text>
-      </View>
-      <View style={styles.buttonContainer}>
-        <Button
-          title="Register"
-          onPress={() => navigation.navigate('Register')}
-        />
-        <Button title="Login" onPress={() => navigation.navigate('Login')} />
-      </View>
       <Form
         onSubmit={onSubmit}
         render={({handleSubmit}) => (
@@ -47,7 +38,10 @@ const Registration: React.FC = () => {
               </Field>
             </View>
             <View>
-              <Button title="Login" />
+              <Button
+                title="Login"
+                onPress={() => navigation.navigate(AppRoutes.Desc)}
+              />
             </View>
           </>
         )}
@@ -56,7 +50,7 @@ const Registration: React.FC = () => {
   );
 };
 
-export default Registration;
+export default Login;
 
 const styles = StyleSheet.create({
   text: {

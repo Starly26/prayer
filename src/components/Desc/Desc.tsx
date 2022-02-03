@@ -1,15 +1,8 @@
 import React, {useState} from 'react';
-import {
-  Alert,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View,
-} from 'react-native';
+import {StyleSheet, Text, TouchableHighlight, View} from 'react-native';
 import {ColumnType} from '../../types';
 import {Plus} from '../icons/Plus';
-import {Column} from './components';
+import {Column} from './components/Column';
 
 const Desc = () => {
   const [columns, setColumns] = useState<ColumnType[]>([
@@ -19,14 +12,14 @@ const Desc = () => {
   ]);
   return (
     <>
-      <SafeAreaView style={styles.header}>
+      <View style={styles.header}>
         <View style={styles.container}>
           <Text style={styles.text}>My Desk</Text>
-          <TouchableHighlight onPress={() => Alert.alert('Pressed!')}>
+          <TouchableHighlight onPress={() => console.log('press')}>
             <Plus />
           </TouchableHighlight>
         </View>
-      </SafeAreaView>
+      </View>
       <View style={styles.columnContainer}>
         {columns.map(column => (
           <Column column={column} key={column.id} />
@@ -40,6 +33,7 @@ export default Desc;
 
 const styles = StyleSheet.create({
   header: {
+    paddingTop: 30,
     borderBottomWidth: 1,
     borderColor: '#E5E5E5',
   },

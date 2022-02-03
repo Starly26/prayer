@@ -1,14 +1,17 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {ColumnType} from '../../../types';
+import AppRoutes from '../../../../navigation/route';
+import {ColumnType} from '../../../../types';
 
 type ColumnProps = {
   column: ColumnType;
 };
 
 const Colunm: React.FC<ColumnProps> = ({column}) => {
+  const navigation = useNavigation()
   return (
-    <TouchableOpacity onPress={() => Alert.alert('Pressed!')}>
+    <TouchableOpacity onPress={() => navigation.navigate(AppRoutes.CardListStack)}>
       <View style={styles.container}>
         <Text>{column.name}</Text>
       </View>

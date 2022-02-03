@@ -12,16 +12,6 @@ const Registration = () => {
   const navigation = useNavigation();
   return (
     <SafeAreaView>
-      <View>
-        <Text style={styles.text}>Wellcome to Prayer</Text>
-      </View>
-      <View style={styles.buttonContainer}>
-        <Button
-          title="Register"
-          onPress={() => navigation.navigate('Register')}
-        />
-        <Button title="Login" onPress={() => navigation.navigate('Login')} />
-      </View>
       <Form
         onSubmit={onSubmit}
         render={({handleSubmit}) => (
@@ -39,7 +29,10 @@ const Registration = () => {
               </Field>
             </View>
             <View>
-              <Button title="Registration" />
+              <Button
+                title="Registration"
+                onPress={() => navigation.navigate('Desc')}
+              />
             </View>
           </>
         )}
