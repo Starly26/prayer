@@ -2,7 +2,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {Desc} from '../../../components/Desc';
 import AppRoutes from '../../route';
-import CardListStack from '../CardListStack/CardListStack';
+import ColumnScreen from '../ColumnScreen/ColumScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,8 +15,8 @@ const MainStack = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name={AppRoutes.CardListStack}
-        component={CardListStack}
+        name={AppRoutes.ColumnScreen}
+        component={ColumnScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

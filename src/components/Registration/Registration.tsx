@@ -1,31 +1,51 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
-import {Field, Form, FormProps} from 'react-final-form';
-import {Button, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {Field, Form} from 'react-final-form';
+import {Button, StyleSheet, Text, View} from 'react-native';
 import {useAppDispatch} from '../../hooks/useAppDispatch';
-import AppRoutes from '../../navigation/route';
-import {addUserName} from '../../store/slices/user/userSlice';
+import {login} from '../../store/auth/userSlice';
+import {UserAuthResponseDto, UserProps} from '../../types';
 import {Input} from '../ui/Input';
+import {AxiosResponse} from 'axios';
+import LocalStorageService from '../../services/LocalStorageService';
+import {addColumn} from '../../store/column/slice';
+import {registerUser} from '../../api/api';
+
 type RegistrationParamList = {
   MainStack: undefined;
 };
 type Props = NativeStackScreenProps<RegistrationParamList>;
 
-const Registration: React.FC<Props> = ({navigation}) => {
-  const onSubmit = (values: FormProps<{name: string}>) => {
-    console.log(values);
-    navigation.navigate(AppRoutes.MainStack);
-    dispath(addUserName(values.email));
-  };
-
+const Registration: React.FC<Props> = () => {
   const dispath = useAppDispatch();
 
+  const onSubmit = (values: UserProps) => {
+    dispath(login(values.name!));
+    registerUser(values).then(function (
+      response: AxiosResponse<UserAuthResponseDto>,
+    ) {
+      LocalStorageService.setToken(response.data.token);
+      response.data.columns.forEach(column => {
+        dispath(addColumn(column));
+        console.log(column);
+      });
+    });
+  };
+
   return (
-    <SafeAreaView>
+    <View>
       <Form
         onSubmit={onSubmit}
         render={({form}) => (
           <>
+            <View>
+              <Text style={styles.label}>Name</Text>
+              <Field name="name">
+                {({input}) => (
+                  <Input onChangeText={input.onChange} value={input.value} />
+                )}
+              </Field>
+            </View>
             <View>
               <Text style={styles.label}>Email</Text>
               <Field name="email">
@@ -48,7 +68,7 @@ const Registration: React.FC<Props> = ({navigation}) => {
           </>
         )}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

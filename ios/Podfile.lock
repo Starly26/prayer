@@ -343,6 +343,8 @@ PODS:
     - React-perflogger (= 0.67.1)
   - RNCAsyncStorage (1.12.1):
     - React-Core
+  - RNCCheckbox (0.5.9):
+    - React-Core
   - RNScreens (3.10.2):
     - React-Core
     - React-RCTImage
@@ -409,6 +411,7 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - "RNCCheckbox (from `../node_modules/@react-native-community/checkbox`)"
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -495,6 +498,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
+  RNCCheckbox:
+    :path: "../node_modules/@react-native-community/checkbox"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   RNSVG:
@@ -548,6 +553,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 2c92a8bddd1a3e72c7513d1e74235c2d9c84875c
   ReactCommon: 2e816fad39f65f2a94a5999d5be463a6b620dcf6
   RNCAsyncStorage: b03032fdbdb725bea0bd9e5ec5a7272865ae7398
+  RNCCheckbox: 6369808337432cdbd5025d62ceced2480b4c51df
   RNScreens: d6da2b9e29cf523832c2542f47bf1287318b1868
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   Yoga: 5cbf25add73edb290e1067017690f7ebf56c5468

@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Alert,
   StyleSheet,
   TextInput,
   TextInputProps,
@@ -11,13 +10,14 @@ import {Plus} from '../../icons/Plus';
 
 type InputProps = {
   plus?: boolean;
+  plussPress?: () => void;
 } & TextInputProps;
 
 const Input: React.FC<InputProps> = props => {
   return (
     <View style={styles.container}>
       {props.plus ? (
-        <TouchableHighlight onPress={() => Alert.alert('Pressed!')}>
+        <TouchableHighlight onPress={props.plussPress}>
           <Plus />
         </TouchableHighlight>
       ) : (
@@ -28,6 +28,7 @@ const Input: React.FC<InputProps> = props => {
         style={styles.input}
         {...props}
         placeholder={props.placeholder}
+        autoCapitalize="none"
       />
     </View>
   );

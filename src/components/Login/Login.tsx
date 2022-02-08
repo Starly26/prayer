@@ -1,27 +1,31 @@
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+// import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {AxiosResponse} from 'axios';
 import React from 'react';
-import {Field, Form, FormProps} from 'react-final-form';
-import {Button, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {Field, Form} from 'react-final-form';
+import {Button, StyleSheet, Text, View} from 'react-native';
 import {useAppDispatch} from '../../hooks/useAppDispatch';
-import AppRoutes from '../../navigation/route';
-import {addUserName} from '../../store/slices/user/userSlice';
+import LocalStorageService from '../../services/LocalStorageService';
+import {login} from '../../store/auth/userSlice';
+import {UserAuthResponseDto, UserProps} from '../../types';
 import {Input} from '../ui/Input';
+import {putColumnsAction} from '../../store/column/actions';
+import {loginUser} from '../../api/api';
 
-type LoginParamList = {
-  MainStack: undefined;
-};
-type Props = NativeStackScreenProps<LoginParamList>;
+const Login: React.FC = () => {
+  const dispatch = useAppDispatch();
 
-const Login: React.FC<Props> = ({navigation}) => {
-  const onSubmit = (values: FormProps<{name: string}>) => {
-    console.log(values.name);
-    navigation.navigate(AppRoutes.MainStack);
-    dispath(addUserName(values.email));
+  const onSubmit = (values: UserProps) => {
+    loginUser(values).then(function (
+      response: AxiosResponse<UserAuthResponseDto>,
+    ) {
+      LocalStorageService.setToken(response.data.token);
+      dispatch(login(response.data.name));
+    });
+    dispatch(putColumnsAction());
   };
 
-  const dispath = useAppDispatch();
   return (
-    <SafeAreaView>
+    <View>
       <Form
         onSubmit={onSubmit}
         render={({form}) => (
@@ -52,7 +56,7 @@ const Login: React.FC<Props> = ({navigation}) => {
           </>
         )}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
