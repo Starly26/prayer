@@ -2,7 +2,7 @@ import {createAction} from '@reduxjs/toolkit';
 import {UserProps} from '../../types';
 
 export const registerUserAction = createAction(
-  'loginUser',
+  'registerUser',
   (user: UserProps) => {
     return {
       payload: {

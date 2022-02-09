@@ -1,4 +1,4 @@
-import {registerUserAction} from '../store/auth/actions';
+import {loginUserAction, registerUserAction} from '../store/auth/actions';
 
 export type ColumnType = {
   id: number;
@@ -40,4 +40,5 @@ export type ChangeColumnType = {
   id: number;
 };
 
-export type SagaUserAction = ReturnType<typeof registerUserAction>;
+export type RegisterUserActionType = ReturnType<typeof registerUserAction>;
+export type LoginUserActionType = ReturnType<typeof loginUserAction>;

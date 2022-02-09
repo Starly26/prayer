@@ -6,9 +6,16 @@ import {putColumnsAction} from './actions';
 import {putColumns} from './slice';
 
 function* receiveColumns() {
-  const response: AxiosResponse<ColumnResponseDto> = yield call(getColumn);
-  const columns: ColumnResponseDto = response.data;
-  yield put(putColumns(columns));
+  try {
+    const response: AxiosResponse<ColumnResponseDto> = yield call(getColumn);
+    console.log('receive', response);
+
+    const columns: ColumnResponseDto = response.data;
+
+    yield put(putColumns(columns));
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 function* columnSaga() {

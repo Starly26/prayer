@@ -1,6 +1,6 @@
 import {RouteProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Field, Form} from 'react-final-form';
 import {
   Button,
@@ -20,6 +20,9 @@ import {Arrow} from '../../../../components/icons/Arrow';
 import {Plus} from '../../../../components/icons/Plus';
 import {Input} from '../../../../components/ui/Input';
 import {ColumnItem} from './components/ColumnItem';
+import {selectLoader} from '../../../../store/auth/selectors';
+import {Loader} from '../../../../components/ui/Loader';
+import {putColumnsAction} from '../../../../store/column/actions';
 
 type NavigationStack = {
   ColumnScreen: {id: number};
@@ -34,70 +37,92 @@ type Props = {
 };
 
 const DescScreen: React.FC<Props> = ({navigation}) => {
-  const dispath = useAppDispatch();
+  console.log('descCreen');
+
+  useEffect(() => {
+    dispatch(putColumnsAction());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const dispatch = useAppDispatch();
   const columns = useAppSelector(state => state.column.columns);
+
   const onSubmit = (values: ColumnTypeCreate) => {
     createColumn(values);
     console.log('create', values);
     setIsModalVisible(false);
   };
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const isLoading = useAppSelector(selectLoader);
 
   return (
     <>
-      <View style={styles.header}>
-        <View style={styles.container}>
-          <View style={styles.wrapper}>
-            <Text style={styles.text}>My Desk</Text>
-          </View>
-          <TouchableHighlight onPress={() => setIsModalVisible(true)}>
-            <Plus />
-          </TouchableHighlight>
-        </View>
-      </View>
-      <Modal visible={isModalVisible}>
-        <Form
-          onSubmit={onSubmit}
-          render={({form}) => (
-            <View>
-              <View>
-                <TouchableHighlight onPress={() => setIsModalVisible(false)}>
-                  <Arrow />
-                </TouchableHighlight>
-                <Text style={styles.text}>Name</Text>
-                <Field name="title">
-                  {({input}) => (
-                    <Input onChangeText={input.onChange} value={input.value} />
-                  )}
-                </Field>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <View style={styles.header}>
+            <View style={styles.container}>
+              <View style={styles.wrapper}>
+                <Text style={styles.text}>My Desk</Text>
               </View>
-              <View>
-                <Text style={styles.text}>Description</Text>
-                <Field name="description">
-                  {({input}) => (
-                    <Input onChangeText={input.onChange} value={input.value} />
-                  )}
-                </Field>
-              </View>
-              <View>
-                <Button title="Create" onPress={form.submit} />
-              </View>
+              <TouchableHighlight onPress={() => setIsModalVisible(true)}>
+                <Plus />
+              </TouchableHighlight>
             </View>
-          )}
-        />
-      </Modal>
-      <View style={styles.columnContainer}>
-        {columns.map(column => (
-          <ColumnItem
-            column={column}
-            key={column.id}
-            onPress={() =>
-              navigation.navigate(AppRoutes.ColumnScreen, {id: column.id})
-            }
-          />
-        ))}
-      </View>
-      <Button title="Logout" onPress={() => dispath(logout())} />
+          </View>
+          <Modal visible={isModalVisible}>
+            <Form
+              onSubmit={onSubmit}
+              render={({form}) => (
+                <View>
+                  <View>
+                    <TouchableHighlight
+                      onPress={() => setIsModalVisible(false)}>
+                      <Arrow />
+                    </TouchableHighlight>
+                    <Text style={styles.text}>Name</Text>
+                    <Field name="title">
+                      {({input}) => (
+                        <Input
+                          onChangeText={input.onChange}
+                          value={input.value}
+                        />
+                      )}
+                    </Field>
+                  </View>
+                  <View>
+                    <Text style={styles.text}>Description</Text>
+                    <Field name="description">
+                      {({input}) => (
+                        <Input
+                          onChangeText={input.onChange}
+                          value={input.value}
+                        />
+                      )}
+                    </Field>
+                  </View>
+                  <View>
+                    <Button title="Create" onPress={form.submit} />
+                  </View>
+                </View>
+              )}
+            />
+          </Modal>
+          <View style={styles.columnContainer}>
+            {columns.map(column => (
+              <ColumnItem
+                column={column}
+                key={column.id}
+                onPress={() =>
+                  navigation.navigate(AppRoutes.ColumnScreen, {id: column.id})
+                }
+              />
+            ))}
+          </View>
+          <Button title="Logout" onPress={() => dispatch(logout())} />
+        </>
+      )}
     </>
   );
 };

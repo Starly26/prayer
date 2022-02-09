@@ -2,12 +2,12 @@ import {AxiosResponse} from 'axios';
 import {call, put, takeEvery} from '@redux-saga/core/effects';
 import {registerUser} from '../../../api/api';
 import LocalStorageService from '../../../services/LocalStorageService';
-import {SagaUserAction, UserAuthResponseDto} from '../../../types';
+import {RegisterUserActionType, UserAuthResponseDto} from '../../../types';
 import {putColumns} from '../../column/slice';
 import {registerUserAction} from '../actions';
 import {loading, login} from '../userSlice';
 
-function* registrationUser(action: SagaUserAction) {
+function* registrationUser(action: RegisterUserActionType) {
   try {
     put(loading(true));
     const response: AxiosResponse<UserAuthResponseDto> = yield call(() =>

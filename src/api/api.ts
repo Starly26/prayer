@@ -1,4 +1,3 @@
-import {addColumn} from '../store/column/slice';
 import {UserProps, ColumnTypeCreate, ColumnTypeChange} from '../types';
 import {apiAuth, instanse} from './instatnse';
 
@@ -15,9 +14,7 @@ export const getColumn = () => {
 };
 
 export const createColumn = (column: ColumnTypeCreate) => {
-  return instanse
-    .post('columns/', column)
-    .then(response => addColumn(response.data));
+  return instanse.post('columns/', column);
 };
 
 export const deleteColumn = (id: number) => {

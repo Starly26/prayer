@@ -4,5 +4,5 @@ import registerSaga from './auth/sagas/registerSaga';
 import columnSaga from './column/saga';
 
 export default function* rootSaga() {
-  yield all([columnSaga, registerSaga, loginUserSaga]);
+  yield all([columnSaga(), registerSaga(), loginUserSaga()]);
 }

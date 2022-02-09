@@ -3,9 +3,9 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
 import {Text, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-// import {Loader} from '../../../components/ui/Loader';
-// import {useAppSelector} from '../../../hooks/useAppSelect';
-// import {selectLoader} from '../../../store/auth/selectors';
+import {Loader} from '../../../components/ui/Loader';
+import {useAppSelector} from '../../../hooks/useAppSelect';
+import {selectLoader} from '../../../store/auth/selectors';
 import AppRoutes from '../../route';
 import {LoginScreen} from './LoginScreen';
 import {RegistrationScreen} from './RegistrationScreen';
@@ -19,26 +19,26 @@ type AuthorizationParamList = {
 type Props = NativeStackScreenProps<AuthorizationParamList>;
 
 const AuthorizationStack: React.FC<Props> = () => {
-  // const isLoading = useAppSelector(selectLoader);
+  const isLoading = useAppSelector(selectLoader);
 
   return (
     <>
-      {/* {isLoading ? (
+      {isLoading ? (
         <Loader />
-      ) : ( */}
-      <>
-        <SafeAreaView>
-          <Text style={styles.text}>Wellcome to Prayer</Text>
-        </SafeAreaView>
-        <Tab.Navigator>
-          <Tab.Screen
-            name={AppRoutes.RegistrationScreen}
-            component={RegistrationScreen}
-          />
-          <Tab.Screen name={AppRoutes.LoginScreen} component={LoginScreen} />
-        </Tab.Navigator>
-      </>
-      {/* // )} */}
+      ) : (
+        <>
+          <SafeAreaView>
+            <Text style={styles.text}>Wellcome to Prayer</Text>
+          </SafeAreaView>
+          <Tab.Navigator>
+            <Tab.Screen
+              name={AppRoutes.RegistrationScreen}
+              component={RegistrationScreen}
+            />
+            <Tab.Screen name={AppRoutes.LoginScreen} component={LoginScreen} />
+          </Tab.Navigator>
+        </>
+      )}
     </>
   );
 };

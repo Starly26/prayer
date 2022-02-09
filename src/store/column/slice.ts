@@ -14,7 +14,10 @@ const columnSlice = createSlice({
   initialState,
   reducers: {
     putColumns(state, {payload}: PayloadAction<ColumnType[]>) {
-      state.columns = payload;
+      if (payload) {
+        state.columns = payload;
+      }
+      console.log('payload', payload);
     },
     addColumn(state, {payload}: PayloadAction<ColumnType>) {
       state.columns.push(payload);
