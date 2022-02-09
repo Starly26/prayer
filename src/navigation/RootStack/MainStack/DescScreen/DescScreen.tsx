@@ -5,21 +5,20 @@ import {Field, Form} from 'react-final-form';
 import {
   Button,
   Modal,
-  SafeAreaView,
   StyleSheet,
   Text,
   TouchableHighlight,
   View,
 } from 'react-native';
-import {createColumn} from '../../api/api';
-import {useAppDispatch} from '../../hooks/useAppDispatch';
-import {useAppSelector} from '../../hooks/useAppSelect';
-import AppRoutes from '../../navigation/route';
-import {logout} from '../../store/auth/userSlice';
-import {ColumnTypeCreate} from '../../types';
-import {Arrow} from '../icons/Arrow';
-import {Plus} from '../icons/Plus';
-import {Input} from '../ui/Input';
+import {createColumn} from '../../../../api/api';
+import {useAppDispatch} from '../../../../hooks/useAppDispatch';
+import {useAppSelector} from '../../../../hooks/useAppSelect';
+import AppRoutes from '../../../route';
+import {logout} from '../../../../store/auth/userSlice';
+import {ColumnTypeCreate} from '../../../../types';
+import {Arrow} from '../../../../components/icons/Arrow';
+import {Plus} from '../../../../components/icons/Plus';
+import {Input} from '../../../../components/ui/Input';
 import {ColumnItem} from './components/ColumnItem';
 
 type NavigationStack = {
@@ -34,7 +33,7 @@ type Props = {
   route: RouteProp<NavigationStack, AppRoutes.ColumnScreen>;
 };
 
-const Desc: React.FC<Props> = ({navigation}) => {
+const DescScreen: React.FC<Props> = ({navigation}) => {
   const dispath = useAppDispatch();
   const columns = useAppSelector(state => state.column.columns);
   const onSubmit = (values: ColumnTypeCreate) => {
@@ -60,7 +59,7 @@ const Desc: React.FC<Props> = ({navigation}) => {
         <Form
           onSubmit={onSubmit}
           render={({form}) => (
-            <SafeAreaView>
+            <View>
               <View>
                 <TouchableHighlight onPress={() => setIsModalVisible(false)}>
                   <Arrow />
@@ -83,7 +82,7 @@ const Desc: React.FC<Props> = ({navigation}) => {
               <View>
                 <Button title="Create" onPress={form.submit} />
               </View>
-            </SafeAreaView>
+            </View>
           )}
         />
       </Modal>
@@ -103,7 +102,7 @@ const Desc: React.FC<Props> = ({navigation}) => {
   );
 };
 
-export default Desc;
+export default DescScreen;
 
 const styles = StyleSheet.create({
   header: {

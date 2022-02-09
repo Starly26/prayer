@@ -1,8 +1,8 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import {PrayerLine} from '../../../../../icons/PrayerLine';
-import {UserIcon} from '../../../../../icons/User';
+import {PrayerLine} from '../../../../../../../../components/icons/PrayerLine';
+import {UserIcon} from '../../../../../../../../components/icons/User';
 
 const Card = () => {
   return (

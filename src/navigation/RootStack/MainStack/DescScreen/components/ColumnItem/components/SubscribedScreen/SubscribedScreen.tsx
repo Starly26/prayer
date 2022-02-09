@@ -1,10 +1,9 @@
 import React from 'react';
 import {Field, Form} from 'react-final-form';
 import {Alert, StyleSheet, View} from 'react-native';
-import {Input} from '../../../../../ui/Input';
-import {Prayer} from '../Prayer';
+import {Input} from '../../../../../../../../components/ui/Input';
 
-const MyPrayers: React.FC = () => {
+const Subscribed: React.FC = () => {
   const onSubmit = () => {
     Alert.alert('touch');
   };
@@ -28,13 +27,11 @@ const MyPrayers: React.FC = () => {
           </View>
         )}
       />
-      <Prayer />
     </View>
   );
 };
 
-export default MyPrayers;
-
+export default Subscribed;
 const styles = StyleSheet.create({
   container: {
     paddingTop: 16,

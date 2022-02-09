@@ -1,8 +1,9 @@
+import {registerUserAction} from '../store/auth/actions';
+
 export type ColumnType = {
   id: number;
   title: string;
   description: string;
-  userId?: number;
 };
 export type UserProps = {
   email: string;
@@ -38,3 +39,5 @@ export type ChangeColumnType = {
   description: string;
   id: number;
 };
+
+export type SagaUserAction = ReturnType<typeof registerUserAction>;

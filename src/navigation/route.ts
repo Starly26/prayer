@@ -1,10 +1,13 @@
 enum AppRoutes {
   AuthorizationStack = 'AuthorizationStack',
-  Desc = 'Desc',
+  DescScreen = 'DescScreen',
   ColumnScreen = 'ColumnScreen',
   MainStack = 'MainStack',
-  MyPrayers = 'MyPrayers',
-  Subscribed = 'Subscribed',
+  MyPrayersScreen = 'MyPrayersScreen',
+  SubscribedScreen = 'SubscribedScreen',
+  LoginScreen = 'Login',
+  RegistrationScreen = 'Registration',
+  Token = 'token',
 }
 
 export default AppRoutes;

@@ -2,7 +2,7 @@ import {configureStore, combineReducers} from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import userReduser from './auth/userSlice';
 import columnReduser from './column/slice';
-import columnSaga from './column/saga';
+import rootSaga from './rootSaga';
 
 const rootReducer = combineReducers({
   user: userReduser,
@@ -15,7 +15,7 @@ const store = configureStore({
   reducer: rootReducer,
   middleware: [sagaMiddleware],
 });
-sagaMiddleware.run(columnSaga);
+sagaMiddleware.run(rootSaga);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

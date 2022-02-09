@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {ColumnType} from '../../../../types';
+import {ColumnType} from '../../../../../../types';
 
 type ColumnProps = {
   column: ColumnType;

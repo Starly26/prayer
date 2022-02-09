@@ -1,2 +1,2 @@
 import {createAction} from '@reduxjs/toolkit';
-export const putColumnsAction = createAction('column/putColumn');
+export const putColumnsAction = createAction('putColumn');

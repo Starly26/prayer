@@ -2,34 +2,21 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
 import {Field, Form} from 'react-final-form';
 import {Button, StyleSheet, Text, View} from 'react-native';
-import {useAppDispatch} from '../../hooks/useAppDispatch';
-import {login} from '../../store/auth/userSlice';
-import {UserAuthResponseDto, UserProps} from '../../types';
-import {Input} from '../ui/Input';
-import {AxiosResponse} from 'axios';
-import LocalStorageService from '../../services/LocalStorageService';
-import {addColumn} from '../../store/column/slice';
-import {registerUser} from '../../api/api';
+import {useAppDispatch} from '../../../../hooks/useAppDispatch';
+import {UserProps} from '../../../../types';
+import {Input} from '../../../../components/ui/Input';
+import {registerUserAction} from '../../../../store/auth/actions';
 
 type RegistrationParamList = {
   MainStack: undefined;
 };
 type Props = NativeStackScreenProps<RegistrationParamList>;
 
-const Registration: React.FC<Props> = () => {
+const RegistrationScreen: React.FC<Props> = () => {
   const dispath = useAppDispatch();
 
   const onSubmit = (values: UserProps) => {
-    dispath(login(values.name!));
-    registerUser(values).then(function (
-      response: AxiosResponse<UserAuthResponseDto>,
-    ) {
-      LocalStorageService.setToken(response.data.token);
-      response.data.columns.forEach(column => {
-        dispath(addColumn(column));
-        console.log(column);
-      });
-    });
+    dispath(registerUserAction(values));
   };
 
   return (
@@ -72,7 +59,7 @@ const Registration: React.FC<Props> = () => {
   );
 };
 
-export default Registration;
+export default RegistrationScreen;
 
 const styles = StyleSheet.create({
   label: {

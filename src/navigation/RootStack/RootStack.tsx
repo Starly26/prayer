@@ -20,7 +20,8 @@ const RootStack: React.FC = () => {
         dispath(logout());
       }
     });
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Stack.Navigator>

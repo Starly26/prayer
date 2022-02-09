@@ -4,25 +4,25 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React from 'react';
 import {StyleSheet, Text, TouchableHighlight, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {MyPrayers} from '../../../components/Desc/components/ColumnItem/components/MyPrayers';
-import {Subscribed} from '../../../components/Desc/components/ColumnItem/components/Subscribed';
-import {Arrow} from '../../../components/icons/Arrow';
-import {Setting} from '../../../components/icons/Setting';
-import {useAppSelector} from '../../../hooks/useAppSelect';
-import {selectColumnById} from '../../../store/column/selectors';
-import AppRoutes from '../../route';
+import {MyPrayers} from '../DescScreen/components/ColumnItem/components/MyPrayersScreen';
+import {Subscribed} from '../DescScreen/components/ColumnItem/components/SubscribedScreen';
+import {Arrow} from '../../../../components/icons/Arrow';
+import {Setting} from '../../../../components/icons/Setting';
+import {useAppSelector} from '../../../../hooks/useAppSelect';
+import {selectColumnById} from '../../../../store/column/selectors';
+import AppRoutes from '../../../route';
 
 const Tab = createMaterialTopTabNavigator();
 type CardListNavigationStack = {
-  Desc: {id: number};
+  [AppRoutes.DescScreen]: {id: number};
 };
 type ProfileNavigation = NativeStackNavigationProp<
   CardListNavigationStack,
-  AppRoutes.Desc
+  AppRoutes.DescScreen
 >;
 type Props = {
   navigation: ProfileNavigation;
-  route: RouteProp<CardListNavigationStack, AppRoutes.Desc>;
+  route: RouteProp<CardListNavigationStack, AppRoutes.DescScreen>;
 };
 
 const ColumnScreen: React.FC<Props> = ({navigation, route: {params}}) => {

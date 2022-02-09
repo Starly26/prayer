@@ -1,27 +1,17 @@
 // import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {AxiosResponse} from 'axios';
 import React from 'react';
 import {Field, Form} from 'react-final-form';
 import {Button, StyleSheet, Text, View} from 'react-native';
-import {useAppDispatch} from '../../hooks/useAppDispatch';
-import LocalStorageService from '../../services/LocalStorageService';
-import {login} from '../../store/auth/userSlice';
-import {UserAuthResponseDto, UserProps} from '../../types';
-import {Input} from '../ui/Input';
-import {putColumnsAction} from '../../store/column/actions';
-import {loginUser} from '../../api/api';
+import {Input} from '../../../../components/ui/Input';
+import {useAppDispatch} from '../../../../hooks/useAppDispatch';
+import {loginUserAction} from '../../../../store/auth/actions';
+import {UserProps} from '../../../../types';
 
-const Login: React.FC = () => {
+const LoginScreen: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const onSubmit = (values: UserProps) => {
-    loginUser(values).then(function (
-      response: AxiosResponse<UserAuthResponseDto>,
-    ) {
-      LocalStorageService.setToken(response.data.token);
-      dispatch(login(response.data.name));
-    });
-    dispatch(putColumnsAction());
+    dispatch(loginUserAction(values));
   };
 
   return (
@@ -60,7 +50,7 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default LoginScreen;
 
 const styles = StyleSheet.create({
   text: {

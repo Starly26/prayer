@@ -18,6 +18,7 @@ const columnSlice = createSlice({
     },
     addColumn(state, {payload}: PayloadAction<ColumnType>) {
       state.columns.push(payload);
+      console.log('slice', payload);
     },
     deleteColumn(state, {payload}: PayloadAction<number>) {
       state.columns = state.columns.filter(column => column.id === payload);

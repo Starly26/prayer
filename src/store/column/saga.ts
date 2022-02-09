@@ -5,15 +5,14 @@ import {ColumnResponseDto} from '../../types';
 import {putColumnsAction} from './actions';
 import {putColumns} from './slice';
 
-function* createColumns() {
+function* receiveColumns() {
   const response: AxiosResponse<ColumnResponseDto> = yield call(getColumn);
   const columns: ColumnResponseDto = response.data;
-  console.log(columns);
   yield put(putColumns(columns));
 }
 
 function* columnSaga() {
-  yield takeEvery(putColumnsAction, createColumns);
+  yield takeEvery(putColumnsAction, receiveColumns);
 }
 
 export default columnSaga;
