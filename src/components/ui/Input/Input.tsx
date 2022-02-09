@@ -7,8 +7,11 @@ import {
   View,
 } from 'react-native';
 import {Plus} from '../../icons/Plus';
+import {Stroke} from '../../icons/Stroke';
 
 type InputProps = {
+  stroke?: boolean;
+  strokePress?: () => void;
   plus?: boolean;
   plussPress?: () => void;
 } & TextInputProps;
@@ -23,7 +26,13 @@ const Input: React.FC<InputProps> = props => {
       ) : (
         <></>
       )}
-
+      {props.stroke ? (
+        <TouchableHighlight onPress={props.strokePress}>
+          <Stroke />
+        </TouchableHighlight>
+      ) : (
+        <></>
+      )}
       <TextInput
         style={styles.input}
         {...props}

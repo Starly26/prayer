@@ -8,6 +8,7 @@ enum AppRoutes {
   LoginScreen = 'Login',
   RegistrationScreen = 'Registration',
   Token = 'token',
+  DetalPrayerScreen = 'DetalPrayerScreen',
 }
 
 export default AppRoutes;

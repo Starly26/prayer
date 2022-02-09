@@ -1,28 +1,33 @@
 import {RouteProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import React, {useState} from 'react';
-import {Field, Form} from 'react-final-form';
+import React, {useEffect, useState} from 'react';
 import {
   Button,
-  Modal,
+  SafeAreaView,
   StyleSheet,
   Text,
   TouchableHighlight,
+  TouchableOpacity,
   View,
 } from 'react-native';
-import {createColumn} from '../../../../api/api';
 import {useAppDispatch} from '../../../../hooks/useAppDispatch';
 import {useAppSelector} from '../../../../hooks/useAppSelect';
 import AppRoutes from '../../../route';
 import {logout} from '../../../../store/auth/userSlice';
 import {ColumnTypeCreate} from '../../../../types';
-import {Arrow} from '../../../../components/icons/Arrow';
 import {Plus} from '../../../../components/icons/Plus';
-import {Input} from '../../../../components/ui/Input';
 import {ColumnItem} from './components/ColumnItem';
+import {Loader} from '../../../../components/ui/Loader';
+import {
+  createColumnAction,
+  deleteColumnAction,
+  putColumnsAction,
+} from '../../../../store/column/actions';
+import {MyModal} from './components/MyModal';
+import {SwipeRow} from 'react-native-swipe-list-view';
 
 type NavigationStack = {
-  ColumnScreen: {id: number};
+  [AppRoutes.ColumnScreen]: {id: number};
 };
 type ProfileNavigation = NativeStackNavigationProp<
   NavigationStack,
@@ -34,79 +39,90 @@ type Props = {
 };
 
 const DescScreen: React.FC<Props> = ({navigation}) => {
-  const dispath = useAppDispatch();
+  useEffect(() => {
+    dispatch(putColumnsAction());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const [isCreateModalVisible, setIsCreateModalVisible] = useState(false);
+  const [moveLeft, setMoveLeft] = useState(true);
+
+  const dispatch = useAppDispatch();
   const columns = useAppSelector(state => state.column.columns);
-  const onSubmit = (values: ColumnTypeCreate) => {
-    createColumn(values);
-    console.log('create', values);
-    setIsModalVisible(false);
+
+  const createColumnSubmit = (values: ColumnTypeCreate) => {
+    dispatch(createColumnAction(values));
+    setIsCreateModalVisible(false);
   };
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const isLoading = useAppSelector(state => state.column.isLoading);
+  const deleteColumn = (id: number) => {
+    dispatch(deleteColumnAction(id));
+    setMoveLeft(false);
+    setMoveLeft(true);
+  };
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
-    <>
+    <SafeAreaView style={styles.background}>
       <View style={styles.header}>
         <View style={styles.container}>
           <View style={styles.wrapper}>
             <Text style={styles.text}>My Desk</Text>
           </View>
-          <TouchableHighlight onPress={() => setIsModalVisible(true)}>
+          <TouchableHighlight onPress={() => setIsCreateModalVisible(true)}>
             <Plus />
           </TouchableHighlight>
         </View>
       </View>
-      <Modal visible={isModalVisible}>
-        <Form
-          onSubmit={onSubmit}
-          render={({form}) => (
-            <View>
-              <View>
-                <TouchableHighlight onPress={() => setIsModalVisible(false)}>
-                  <Arrow />
-                </TouchableHighlight>
-                <Text style={styles.text}>Name</Text>
-                <Field name="title">
-                  {({input}) => (
-                    <Input onChangeText={input.onChange} value={input.value} />
-                  )}
-                </Field>
-              </View>
-              <View>
-                <Text style={styles.text}>Description</Text>
-                <Field name="description">
-                  {({input}) => (
-                    <Input onChangeText={input.onChange} value={input.value} />
-                  )}
-                </Field>
-              </View>
-              <View>
-                <Button title="Create" onPress={form.submit} />
-              </View>
-            </View>
-          )}
-        />
-      </Modal>
+      <MyModal
+        visible={isCreateModalVisible}
+        onPress={() => setIsCreateModalVisible(false)}
+        onSubmit={createColumnSubmit}
+        btnName="Create"
+      />
       <View style={styles.columnContainer}>
         {columns.map(column => (
-          <ColumnItem
-            column={column}
-            key={column.id}
-            onPress={() =>
-              navigation.navigate(AppRoutes.ColumnScreen, {id: column.id})
-            }
-          />
+          <View key={column.id}>
+            <SwipeRow
+              rightOpenValue={moveLeft ? -100 : 0}
+              disableRightSwipe={true}>
+              <View style={styles.hidden}>
+                <TouchableOpacity>
+                  <View>
+                    <Button
+                      title="Delete"
+                      onPress={() => deleteColumn(column.id)}
+                    />
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <ColumnItem
+                column={column}
+                key={column.id}
+                onPress={() =>
+                  navigation.navigate(AppRoutes.ColumnScreen, {
+                    id: column.id,
+                  })
+                }
+              />
+            </SwipeRow>
+          </View>
         ))}
       </View>
-      <Button title="Logout" onPress={() => dispath(logout())} />
-    </>
+      <Button title="Logout" onPress={() => dispatch(logout())} />
+    </SafeAreaView>
   );
 };
 
 export default DescScreen;
 
 const styles = StyleSheet.create({
+  background: {
+    backgroundColor: '#FFFFFF',
+    flex: 1,
+  },
   header: {
-    paddingTop: 30,
     borderBottomWidth: 1,
     borderColor: '#E5E5E5',
   },
@@ -128,5 +144,21 @@ const styles = StyleSheet.create({
   columnContainer: {
     marginTop: 15,
     paddingHorizontal: 15,
+  },
+  modalText: {
+    fontSize: 17,
+    lineHeight: 20,
+    alignSelf: 'flex-start',
+    marginVertical: 20,
+    marginLeft: 40,
+  },
+  image: {
+    marginLeft: 15,
+  },
+  hidden: {
+    height: 80,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    paddingRight: 30,
   },
 });

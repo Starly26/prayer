@@ -27,7 +27,6 @@ const userSlice = createSlice({
     },
     loading(state, {payload}: PayloadAction<boolean>) {
       state.isLoading = payload;
-      console.log('loading');
     },
   },
 });

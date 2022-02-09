@@ -3,10 +3,14 @@ import createSagaMiddleware from 'redux-saga';
 import userReduser from './auth/userSlice';
 import columnReduser from './column/slice';
 import rootSaga from './rootSaga';
+import prayerReduser from './prayers/slice';
+import commentReduser from './comments/slice';
 
 const rootReducer = combineReducers({
   user: userReduser,
   column: columnReduser,
+  prayer: prayerReduser,
+  comment: commentReduser,
 });
 
 const sagaMiddleware = createSagaMiddleware();

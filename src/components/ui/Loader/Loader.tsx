@@ -1,10 +1,10 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {Text} from 'react-native-svg';
+import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
 
 const Loader: React.FC = () => {
   return (
     <View style={styles.container}>
+      <ActivityIndicator />
       <Text>Loading ...</Text>
     </View>
   );
