@@ -8,7 +8,7 @@ import {loading, login} from '../userSlice';
 
 function* loginUserFunc(action: LoginUserActionType) {
   try {
-    put(loading(true));
+    yield put(loading(true));
     const response: AxiosResponse<UserAuthResponseDto> = yield call(() =>
       loginUser(action.payload.user),
     );
@@ -18,7 +18,7 @@ function* loginUserFunc(action: LoginUserActionType) {
   } catch (e: any) {
     console.log(e.message);
   } finally {
-    put(loading(false));
+    yield put(loading(false));
   }
 }
 

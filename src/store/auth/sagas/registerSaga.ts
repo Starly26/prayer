@@ -9,7 +9,7 @@ import {loading, login} from '../userSlice';
 
 function* registrationUser(action: RegisterUserActionType) {
   try {
-    put(loading(true));
+    yield put(loading(true));
     const response: AxiosResponse<UserAuthResponseDto> = yield call(() =>
       registerUser(action.payload.user),
     );
@@ -21,7 +21,7 @@ function* registrationUser(action: RegisterUserActionType) {
   } catch (e: any) {
     console.log(e.message);
   } finally {
-    put(loading(false));
+    yield put(loading(false));
   }
 }
 

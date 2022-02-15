@@ -1,16 +1,19 @@
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {RouteProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, TouchableHighlight, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {MyPrayers} from '../DescScreen/components/ColumnItem/components/MyPrayersScreen';
-import {Subscribed} from '../DescScreen/components/ColumnItem/components/SubscribedScreen';
+import {MyPrayersScreen} from './components/MyPrayersScreen';
+import {SubscribedScreen} from './components/SubscribedScreen';
 import {Arrow} from '../../../../components/icons/Arrow';
 import {Setting} from '../../../../components/icons/Setting';
 import {useAppSelector} from '../../../../hooks/useAppSelect';
 import {selectColumnById} from '../../../../store/column/selectors';
 import AppRoutes from '../../../route';
+import {useAppDispatch} from '../../../../hooks/useAppDispatch';
+import {putPrayersAction} from '../../../../store/prayers/actions';
+import {Loader} from '../../../../components/ui/Loader';
 
 const Tab = createMaterialTopTabNavigator();
 type CardListNavigationStack = {
@@ -27,25 +30,45 @@ type Props = {
 
 const ColumnScreen: React.FC<Props> = ({navigation, route: {params}}) => {
   const column = useAppSelector(state => selectColumnById(state, params.id));
+  const prayers = useAppSelector(state => state.prayer.prayers);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(putPrayersAction());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const isLoading = useAppSelector(state => state.prayer.isLoading);
+
   return (
     <>
-      <SafeAreaView>
-        <View style={styles.container}>
-          <TouchableHighlight onPress={() => navigation.goBack()}>
-            <Arrow />
-          </TouchableHighlight>
-          <View style={styles.wrapper}>
-            <Text style={styles.text}>{column?.title}</Text>
-          </View>
-          <TouchableHighlight>
-            <Setting />
-          </TouchableHighlight>
-        </View>
-      </SafeAreaView>
-      <Tab.Navigator>
-        <Tab.Screen name="MY PRAYERS" component={MyPrayers} />
-        <Tab.Screen name="SUBSCRIBED" component={Subscribed} />
-      </Tab.Navigator>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <SafeAreaView style={styles.background}>
+            <View style={styles.container}>
+              <TouchableHighlight onPress={() => navigation.goBack()}>
+                <Arrow />
+              </TouchableHighlight>
+              <View style={styles.wrapper}>
+                <Text style={styles.text}>{column?.title}</Text>
+              </View>
+              <TouchableHighlight>
+                <Setting />
+              </TouchableHighlight>
+            </View>
+          </SafeAreaView>
+          <Tab.Navigator screenOptions={{swipeEnabled: false}}>
+            <Tab.Screen
+              name="MY PRAYERS"
+              children={() => <MyPrayersScreen {...{columnId: column!.id}} />}
+            />
+            <Tab.Screen
+              name={`SUBSCRIBED ${prayers.length}`}
+              children={() => <SubscribedScreen {...{columnId: column!.id}} />}
+            />
+          </Tab.Navigator>
+        </>
+      )}
     </>
   );
 };
@@ -66,5 +89,8 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     width: '80%',
+  },
+  background: {
+    backgroundColor: '#FFFFFF',
   },
 });

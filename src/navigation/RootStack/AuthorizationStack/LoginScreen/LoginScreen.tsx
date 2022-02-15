@@ -1,4 +1,3 @@
-// import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
 import {Field, Form} from 'react-final-form';
 import {Button, StyleSheet, Text, View} from 'react-native';
@@ -15,33 +14,57 @@ const LoginScreen: React.FC = () => {
   };
 
   return (
-    <View>
+    <View style={styles.background}>
       <Form
         onSubmit={onSubmit}
-        render={({form}) => (
+        validate={values => {
+          const errors = {} as UserProps;
+          if (!values.email) {
+            errors.email = 'Required';
+          }
+          if (!values.password) {
+            errors.password = 'Required';
+          }
+          return errors;
+        }}
+        render={({form, submitting}) => (
           <>
             <View>
               <Text style={styles.label}>Email</Text>
               <Field name="email">
-                {({input}) => (
-                  <Input onChangeText={input.onChange} value={input.value} />
+                {({input, meta}) => (
+                  <View>
+                    <Input onChangeText={input.onChange} value={input.value} />
+                    {meta.error && meta.touched && (
+                      <Text style={styles.error}>{meta.error}</Text>
+                    )}
+                  </View>
                 )}
               </Field>
             </View>
             <View>
               <Text style={styles.label}>Password</Text>
               <Field name="password">
-                {({input}) => (
-                  <Input
-                    onChangeText={input.onChange}
-                    value={input.value}
-                    secureTextEntry={true}
-                  />
+                {({input, meta}) => (
+                  <View>
+                    <Input
+                      onChangeText={input.onChange}
+                      value={input.value}
+                      secureTextEntry={true}
+                    />
+                    {meta.error && meta.touched && (
+                      <Text style={styles.error}>{meta.error}</Text>
+                    )}
+                  </View>
                 )}
               </Field>
             </View>
             <View>
-              <Button title="Login" onPress={form.submit} />
+              <Button
+                title="Login"
+                onPress={form.submit}
+                disabled={submitting}
+              />
             </View>
           </>
         )}
@@ -69,5 +92,14 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
+  },
+  background: {
+    backgroundColor: '#FFFFFF',
+    flex: 1,
+  },
+  error: {
+    marginLeft: 22,
+    color: 'red',
+    marginTop: 5,
   },
 });
