@@ -37,38 +37,35 @@ const ColumnScreen: React.FC<Props> = ({navigation, route: {params}}) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const isLoading = useAppSelector(state => state.prayer.isLoading);
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <>
-          <SafeAreaView style={styles.background}>
-            <View style={styles.container}>
-              <TouchableHighlight onPress={() => navigation.goBack()}>
-                <Arrow />
-              </TouchableHighlight>
-              <View style={styles.wrapper}>
-                <Text style={styles.text}>{column?.title}</Text>
-              </View>
-              <TouchableHighlight>
-                <Setting />
-              </TouchableHighlight>
-            </View>
-          </SafeAreaView>
-          <Tab.Navigator screenOptions={{swipeEnabled: false}}>
-            <Tab.Screen
-              name="MY PRAYERS"
-              children={() => <MyPrayersScreen {...{columnId: column!.id}} />}
-            />
-            <Tab.Screen
-              name={`SUBSCRIBED ${prayers.length}`}
-              children={() => <SubscribedScreen {...{columnId: column!.id}} />}
-            />
-          </Tab.Navigator>
-        </>
-      )}
+      <SafeAreaView style={styles.background}>
+        <View style={styles.container}>
+          <TouchableHighlight onPress={() => navigation.goBack()}>
+            <Arrow />
+          </TouchableHighlight>
+          <View style={styles.wrapper}>
+            <Text style={styles.text}>{column?.title}</Text>
+          </View>
+          <TouchableHighlight>
+            <Setting />
+          </TouchableHighlight>
+        </View>
+      </SafeAreaView>
+      <Tab.Navigator screenOptions={{swipeEnabled: false}}>
+        <Tab.Screen
+          name={AppRoutes.MyPrayers}
+          children={() => <MyPrayersScreen {...{columnId: column!.id}} />}
+        />
+        <Tab.Screen
+          name={`${AppRoutes.Subscribed} ${prayers.length}`}
+          children={() => <SubscribedScreen {...{columnId: column!.id}} />}
+        />
+      </Tab.Navigator>
     </>
   );
 };
