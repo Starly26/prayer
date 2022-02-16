@@ -3,20 +3,19 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {useEffect, useState} from 'react';
 import {
   Button,
+  FlatList,
   SafeAreaView,
   StyleSheet,
   Text,
   TouchableHighlight,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import {useAppDispatch} from '../../../../hooks/useAppDispatch';
 import {useAppSelector} from '../../../../hooks/useAppSelect';
 import AppRoutes from '../../../route';
 import {logout} from '../../../../store/auth/userSlice';
-import {ColumnTypeCreate} from '../../../../types';
+import {ColumnType, ColumnTypeCreate} from '../../../../types';
 import {Plus} from '../../../../components/icons/Plus';
-import {ColumnItem} from './components/ColumnItem';
 import {Loader} from '../../../../components/ui/Loader';
 import {
   createColumnAction,
@@ -24,7 +23,7 @@ import {
   putColumnsAction,
 } from '../../../../store/column/actions';
 import {MyModal} from './components/MyModal';
-import {SwipeRow} from 'react-native-swipe-list-view';
+import {Column} from './components/Column';
 
 type NavigationStack = {
   [AppRoutes.ColumnScreen]: {id: number};
@@ -59,6 +58,19 @@ const DescScreen: React.FC<Props> = ({navigation}) => {
     setMoveLeft(false);
     setMoveLeft(true);
   };
+  const renderItem = ({item}: {item: ColumnType}) => (
+    <Column
+      rightOpenValue={moveLeft ? -100 : 0}
+      btnPress={() => deleteColumn(item.id)}
+      column={item}
+      onPress={() =>
+        navigation.navigate(AppRoutes.ColumnScreen, {
+          id: item.id,
+        })
+      }
+    />
+  );
+
   if (isLoading) {
     return <Loader />;
   }
@@ -82,35 +94,13 @@ const DescScreen: React.FC<Props> = ({navigation}) => {
         btnName="Create"
       />
       <View style={styles.columnContainer}>
-        {columns.map(column => (
-          <View key={column.id}>
-            <SwipeRow
-              rightOpenValue={moveLeft ? -100 : 0}
-              disableRightSwipe={true}>
-              <View style={styles.hidden}>
-                <TouchableOpacity>
-                  <View>
-                    <Button
-                      title="Delete"
-                      onPress={() => deleteColumn(column.id)}
-                    />
-                  </View>
-                </TouchableOpacity>
-              </View>
-              <ColumnItem
-                column={column}
-                key={column.id}
-                onPress={() =>
-                  navigation.navigate(AppRoutes.ColumnScreen, {
-                    id: column.id,
-                  })
-                }
-              />
-            </SwipeRow>
-          </View>
-        ))}
+        <FlatList
+          data={columns}
+          renderItem={renderItem}
+          keyExtractor={column => column.id.toString()}
+        />
+        <Button title="Logout" onPress={() => dispatch(logout())} />
       </View>
-      <Button title="Logout" onPress={() => dispatch(logout())} />
     </SafeAreaView>
   );
 };
