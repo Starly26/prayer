@@ -1,16 +1,12 @@
 import React, {useMemo, useState} from 'react';
 import {Field, Form} from 'react-final-form';
-import {Button, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {SwipeRow} from 'react-native-swipe-list-view';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Input} from '../../../../../../components/ui/Input';
 import {useAppDispatch} from '../../../../../../hooks/useAppDispatch';
 import {useAppSelector} from '../../../../../../hooks/useAppSelect';
-import {
-  createPrayerAction,
-  deletePrayerAction,
-} from '../../../../../../store/prayers/actions';
+import {createPrayerAction} from '../../../../../../store/prayers/actions';
 import {PrayerCreate} from '../../../../../../types';
-import {Prayer} from '../Prayer';
+import {PrayerWrapper} from '../PrayerWrapper';
 
 type PrayerScreenProps = {
   columnId: number;
@@ -29,7 +25,6 @@ const MyPrayersScreen: React.FC<PrayerScreenProps> = ({columnId}) => {
   };
 
   const prayers = useAppSelector(state => state.prayer.prayers);
-  const [moveLeft, setMoveLeft] = useState(true);
   const [isShowChecked, setIsShowCheked] = useState(false);
 
   const prayerArray = useMemo(() => {
@@ -74,26 +69,7 @@ const MyPrayersScreen: React.FC<PrayerScreenProps> = ({columnId}) => {
         )}
       />
       {prayersNotCheck.map(prayer => (
-        <View key={prayer.id}>
-          <SwipeRow rightOpenValue={moveLeft ? -100 : 0}>
-            <View style={styles.hidden}>
-              <TouchableOpacity>
-                <View style={styles.btnContainer}>
-                  <Button
-                    color="#FFF"
-                    title="Delete"
-                    onPress={() => {
-                      dispatch(deletePrayerAction(prayer.id));
-                      setMoveLeft(false);
-                      setMoveLeft(true);
-                    }}
-                  />
-                </View>
-              </TouchableOpacity>
-            </View>
-            <Prayer prayer={prayer} />
-          </SwipeRow>
-        </View>
+        <PrayerWrapper key={prayer.id} prayer={prayer} />
       ))}
       <TouchableOpacity
         style={styles.touchButton}
@@ -106,26 +82,7 @@ const MyPrayersScreen: React.FC<PrayerScreenProps> = ({columnId}) => {
       </TouchableOpacity>
       {isShowChecked ? (
         prayerCheck.map(prayer => (
-          <View key={prayer.id}>
-            <SwipeRow rightOpenValue={moveLeft ? -100 : 0}>
-              <View style={styles.hidden}>
-                <TouchableOpacity>
-                  <View style={styles.btnContainer}>
-                    <Button
-                      color="#FFF"
-                      title="Delete"
-                      onPress={() => {
-                        dispatch(deletePrayerAction(prayer.id));
-                        setMoveLeft(false);
-                        setMoveLeft(true);
-                      }}
-                    />
-                  </View>
-                </TouchableOpacity>
-              </View>
-              <Prayer prayer={prayer} />
-            </SwipeRow>
-          </View>
+          <PrayerWrapper key={prayer.id} prayer={prayer} />
         ))
       ) : (
         <></>
@@ -144,17 +101,6 @@ const styles = StyleSheet.create({
   background: {
     backgroundColor: '#FFFFFF',
     flex: 1,
-  },
-  hidden: {
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-  },
-  btnContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#AC5253',
-    height: '100%',
-    width: '100%',
   },
   touchButton: {
     width: 209,

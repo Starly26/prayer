@@ -3,13 +3,13 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import {PrayerLine} from '../../../../../../components/icons/PrayerLine';
-import {UserIcon} from '../../../../../../components/icons/User';
-import {useAppDispatch} from '../../../../../../hooks/useAppDispatch';
-import {changePrayerAction} from '../../../../../../store/prayers/actions';
-import {ChangePrayerType, PrayersType} from '../../../../../../types';
-import AppRoutes from '../../../../../route';
-import {MyModal} from '../../../DescScreen/components/MyModal';
+import {PrayerLine} from '../../../../../../../../components/icons/PrayerLine';
+import {UserIcon} from '../../../../../../../../components/icons/User';
+import {useAppDispatch} from '../../../../../../../../hooks/useAppDispatch';
+import {changePrayerAction} from '../../../../../../../../store/prayers/actions';
+import {ChangePrayerType, PrayersType} from '../../../../../../../../types';
+import AppRoutes from '../../../../../../../route';
+import {MyModal} from '../../../../../DescScreen/components/MyModal';
 
 type CardProps = {
   prayer: PrayersType;
