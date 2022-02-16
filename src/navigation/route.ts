@@ -9,6 +9,8 @@ enum AppRoutes {
   RegistrationScreen = 'Registration',
   Token = 'token',
   DetalPrayerScreen = 'DetalPrayerScreen',
+  MyPrayers = 'MY PRAYERS',
+  Subscribed = 'SUBSCRIBED',
 }
 
 export default AppRoutes;
